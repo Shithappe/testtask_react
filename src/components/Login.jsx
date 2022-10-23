@@ -9,8 +9,6 @@ const Login = () => {
 
     const login = (e) => {
         e.preventDefault();
-        console.log(email.current.value);
-        console.log(password.current.value);
 
         axios.post('http://dummy-api.d0.acom.cloud/api/auth/login', {
             email: email.current.value,
@@ -18,7 +16,8 @@ const Login = () => {
           })
           .then(function (response) {
             console.log(response.data.access_token);
-            Cookies.set("token", response.data.access_token)
+            Cookies.set("token", response.data.access_token);
+            window.location.reload();
           })
     }
 

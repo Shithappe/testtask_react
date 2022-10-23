@@ -1,24 +1,11 @@
+body{
+  background-color: rgb(242, 242, 242);
+}
+
 .App {
   text-align: center;
 }
 
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
 .login form{
   display: flex;
@@ -44,4 +31,67 @@
 .login form span{
   font-size: 1.6em;
   margin-bottom: 0.5em;
+}
+
+.products{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+
+  padding: .8em 5em;
+}
+
+.product{
+  display: flex;
+  flex-direction: column;
+
+  margin: 20px;
+  padding: 0 0 10px;
+  
+  border-radius: 15px;
+  transition: .2s ease-in-out;
+  background-color: rgb(251, 251, 251);
+  box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+.product:hover{
+  transform: scale(1.05);
+}
+.product img{
+  width: 270px;
+  height: 150px;
+  border-radius: 15px 15px 0 0;
+}
+
+
+input[type=radio] {
+  display: none;
+}
+
+label, .pagination button {
+  display: inline-block;
+  padding: 5px 20px;
+  transition: .1s ease-in-out;
+  border: none;
+  border-radius: 8px;
+}
+label:hover, .pagination button:hover{
+  background-color: rgba(255, 255, 255, 0.79);
+  box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
+}
+
+input[type=radio]:checked + label{
+  background-color: rgb(251, 250, 250);
+  box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
+}
+
+.radio-group, .pagination button {
+  border: 2px solid rgba(165, 165, 165, 0.577);
+  display: inline-block;
+  margin: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
 }
