@@ -5,13 +5,13 @@ import Cookies from "js-cookie";
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [sortMode, setSortMode] = useState(Cookies.get("sortMode"));
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(Cookies.get("page") ? Number(Cookies.get("page")) : 1);
     sort(sortMode);
     
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://dummy-api.d0.acom.cloud/api/products?page={${currentPage}}`, // апи не работатет, там только одна страница
+            url: `http://dummy-api.d0.acom.cloud/api/products?page=${currentPage}`,
             headers: { 'Authorization': 'Bearer ' + Cookies.get("token")}
             })
         .then(function (response) {
@@ -60,11 +60,13 @@ const Products = () => {
     }
 
     function goPrevPage() {
-        currentPage > 1 ? setCurrentPage(currentPage - 1) : console.log("0");;
+        currentPage > 1 ? setCurrentPage(currentPage - 1) : console.log("0");
+        Cookies.set("page", currentPage);
     }
-
+    
     function goNextPage() {
         currentPage < 6 ? setCurrentPage(currentPage + 1) : console.log("7");
+        Cookies.set("page", currentPage);
     }
 
 

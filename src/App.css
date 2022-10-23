@@ -15,17 +15,20 @@ body{
   margin: 10vw auto;
   padding: 3em 5em 5em;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: rgb(249, 248, 248);
 }
 .login form input{
+  transition: .2s ease-in-out;
   border: none;
   outline: none;
-  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+  box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 24px;
   margin: 1em;
   padding: 1em;
   font-size: medium;
+  background-color: rgb(251, 251, 251);
 }
 .login form input:hover{
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: rgba(149, 157, 165, 0.6) 0px 8px 24px;
 
 }
 .login form span{
