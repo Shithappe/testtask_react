@@ -41,6 +41,15 @@ const Products = () => {
         Cookies.remove("priceFrom"); setPriceFrom("");
         Cookies.remove("priceTo");   setPriceTo("");
     }
+    function logoutHandler(e) {
+        Cookies.remove("findTitle"); 
+        Cookies.remove("dateFrom");  
+        Cookies.remove("dateTo");    
+        Cookies.remove("priceFrom"); 
+        Cookies.remove("priceTo"); 
+        Cookies.remove("token");
+        window.location.reload();
+    }
 
 
     
@@ -112,6 +121,7 @@ const Products = () => {
 
     return (
         <div>
+            <input className="logout" type="button" value="Log out" onClick={logoutHandler} />
             <h1>Products</h1>
 
             <div className="radio-group" onChange={changeSortMode}>

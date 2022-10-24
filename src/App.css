@@ -138,6 +138,20 @@ input[type=radio]:checked + label{
   opacity: 0.2;
   transition: .2s ease-in-out;
 }
-.clean:hover{
+.clean:hover, .logout:hover{
   opacity: 0.7;
+}
+
+.logout{
+  width: 100px;
+  outline: none;
+  border: none;
+  background-color: rgba(240, 248, 255, 0);
+  position: absolute;
+  right: 50px;
+  top: 2.5em;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.2;
+  transition: .2s ease-in-out;
 }
