@@ -8,10 +8,49 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(Cookies.get("page") ? Number(Cookies.get("page")) : 1);
     sort(sortMode);
     
+    const [findTitle, setFindTitle] = useState(Cookies.get("findTitle") ? Cookies.get("findTitle") : "");
+    const [dateFrom, setDateFrom] = useState(Cookies.get("dateFrom") ? Cookies.get("dateFrom") : "");
+    const [dateTo, setDateTo] = useState(Cookies.get("dateTo") ? Cookies.get("dateTo") : "");
+    const [priceFrom, setPriceFrom] = useState(Cookies.get("priceFrom") ? Cookies.get("priceFrom") : "");
+    const [priceTo, setPriceTo] = useState(Cookies.get("priceTo") ? Cookies.get("priceTo") : "");
+
+    function findTitleHandler(e) {
+        setFindTitle(e.target.value);
+        Cookies.set("findTitle", e.target.value);
+    }
+    function dateFromHandler(e) {
+        setDateFrom(e.target.value);
+        Cookies.set("dateFrom", e.target.value);
+    }
+    function dateToHandler(e) {
+        setDateTo(e.target.value);
+        Cookies.set("dateTo", e.target.value);
+    }
+    function priceFromHandler(e) {
+        setPriceFrom(e.target.value);
+        Cookies.set("priceFrom", e.target.value);
+    }
+    function priceToHandler(e) {
+        setPriceTo(e.target.value);
+        Cookies.set("priceTo", e.target.value);
+    }
+    function cleanHandler(e) {
+        Cookies.remove("findTitle"); setFindTitle("");
+        Cookies.remove("dateFrom");  setDateFrom("");
+        Cookies.remove("dateTo");    setDateTo("");
+        Cookies.remove("priceFrom"); setPriceFrom("");
+        Cookies.remove("priceTo");   setPriceTo("");
+    }
+
+
+    
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://dummy-api.d0.acom.cloud/api/products?page=${currentPage}`,
+            url: `http://dummy-api.d0.acom.cloud/api/products?page=${currentPage}
+                                                             &from=${dateFrom}&to=${dateTo}
+                                                             &price_from=${priceFrom}&price_to=${priceTo}
+                                                             &title=${findTitle}`,
             headers: { 'Authorization': 'Bearer ' + Cookies.get("token")}
             })
         .then(function (response) {
@@ -23,7 +62,7 @@ const Products = () => {
             window.location.reload();
         })
     },
-        [currentPage]
+        [currentPage, dateFrom, dateTo, priceFrom, priceTo, findTitle]
     )
 
     function changeSortMode(e) {
@@ -84,6 +123,21 @@ const Products = () => {
 
                 <input type="radio" value="price" id="price" name="selector" defaultChecked={sortMode === "price"} />
                 <label htmlFor="price">Price</label>
+            </div>
+
+            <div className="sort">
+                <input className="clean" type="button" value="Clean" onClick={cleanHandler} />
+                <div className="intName">
+                    <input type="text" placeholder="Find by title" value={findTitle} onChange={findTitleHandler} />
+                </div>
+                <div className="intDate">
+                    <input type="date" value={dateFrom} onChange={dateFromHandler} />
+                    <input type="date" value={dateTo} onChange={dateToHandler} />
+                </div>
+                <div className="intPrice">
+                    <input type="number" placeholder="Price from..." value={priceFrom} onChange={priceFromHandler} />
+                    <input type="number" placeholder="Price to..." value={priceTo} onChange={priceToHandler} />
+                </div>
             </div>
 
 
