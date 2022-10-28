@@ -47,6 +47,7 @@ const Products = () => {
         Cookies.remove("dateTo");    
         Cookies.remove("priceFrom"); 
         Cookies.remove("priceTo"); 
+        Cookies.remove("page");
         Cookies.remove("token");
         window.location.reload();
     }
@@ -108,12 +109,12 @@ const Products = () => {
     }
 
     function goPrevPage() {
-        currentPage > 1 ? setCurrentPage(currentPage - 1) : console.log("0");
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
         Cookies.set("page", currentPage);
     }
     
     function goNextPage() {
-        currentPage < 6 ? setCurrentPage(currentPage + 1) : console.log("7");
+        if (currentPage < 6) setCurrentPage(currentPage + 1);
         Cookies.set("page", currentPage);
     }
 
