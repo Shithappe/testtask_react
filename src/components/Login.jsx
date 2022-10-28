@@ -10,6 +10,7 @@ const Login = () => {
     const [passwordDirty, setPasswordDirty] = useState(false);
     const [emailError, setEmailError] = useState("Email must not be empty");
     const [passwordError, setPasswordError] = useState("Password must not be empty");
+    const [warning, setWarning] = useState("");
 
     const emailHandler = (e) => {
         setEmail(e.target.value);
@@ -19,7 +20,6 @@ const Login = () => {
     const passwordHandler = (e) => {
         setPassword(e.target.value);
         !e.target.value.length >= 8 ? setPasswordError("Password must be a 8 charns") : setPasswordError("");
-        console.log(e.target.value.length);
     }
 
     const blurHandler = (e) => {
@@ -30,8 +30,9 @@ const Login = () => {
             case "password":
                 setPasswordDirty(true);
                 break;
+            default:
+                break;
         }
-
     }
 
 
@@ -43,9 +44,13 @@ const Login = () => {
             password
           })
           .then(function (response) {
-            console.log(response.data.access_token);
             Cookies.set("token", response.data.access_token);
             window.location.reload();
+          })
+          .catch(function (err) {
+            document.getElementsByClassName('serverError')[0].style.display = "block";
+            if (err.response.status === 401) setWarning("Incorrect password or email.")
+            else setWarning("Internal server error. Please try again later.")
           })
     }
 
@@ -59,6 +64,9 @@ const Login = () => {
                 {(passwordDirty && passwordError) && <div>{passwordError}</div>}
                 <input type="submit" value="Login" onClick={login} />
             </form>
+            <div className="serverError">
+                <span>{warning}</span>
+            </div>
         </div>
     )
 }

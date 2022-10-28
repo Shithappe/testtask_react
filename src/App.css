@@ -12,8 +12,8 @@ body{
   flex-direction: column;
 
   width: 25vw;
-  margin: 10vw auto;
-  padding: 3em 5em 5em;
+  margin: 10vw auto 0;
+  padding: 3em 7vw 2em;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: rgb(249, 248, 248);
 }
@@ -35,13 +35,24 @@ body{
   font-size: 1.6em;
   margin-bottom: 0.5em;
 }
+.serverError{
+  display: none;
+  width: 25vw;
+  margin: 0vw auto 0;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: .5em 7vw;
+  background-color: rgb(249, 248, 248);
+
+  font-size: medium;
+  background-color: rgba(255, 16, 16, 0.858);
+  text-align: center;
+}
+
 
 .products{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: center; */
-
   padding: .8em 5em;
 }
 

@@ -9,7 +9,6 @@ function App() {
       {
         Cookies.get("token") ? <Products/> : <Login/>
       }
-      {console.log(Cookies.get("token"))}
     </div>
   );
 }
