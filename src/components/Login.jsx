@@ -14,7 +14,7 @@ const Login = () => {
 
     const emailHandler = (e) => {
         setEmail(e.target.value);
-        const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        const re = new RegExp('^(([^<>()[].,;:s@"]+(.[^<>()[].,;:s@"]+)*)|(".+"))@(([^<>()[].,;:s@"]+.)+[^<>()[].,;:s@"]{2,})$/i');
         !re.test(String(e.target.value).toLocaleLowerCase()) ? setEmailError("Incorrect email") : setEmailError("");
     }
     const passwordHandler = (e) => {
