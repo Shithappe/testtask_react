@@ -4,8 +4,15 @@ import Cookies from "js-cookie";
 
 import FilterComponent from "./FiltersComponent";
 import PaginationComponent from "./PaginationComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { increment } from "../features/counter/counterSlice";
 
 const Products = () => {
+
+    const test = useSelector((state) => state.counter.value);
+    const dispatch = useDispatch(); 
+
+
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState("");
     const [findTitle, setFindTitle] = useState("");
@@ -36,7 +43,7 @@ const Products = () => {
         Cookies.remove("priceTo"); 
         Cookies.remove("page");
         Cookies.remove("token");
-        window.location.reload();
+        document.location.href = "/login";
     }
 
     
@@ -55,7 +62,7 @@ const Products = () => {
         .catch((err) => {
             console.log(err);
             Cookies.remove("token");
-            window.location.reload();
+            document.location.href = "/login";
         })
     },
         [currentPage, findTitle, fromDate, toDate, fromPrice, toPrice]
@@ -65,7 +72,8 @@ const Products = () => {
     return (
         <div className="Products">
             <input className="logout" type="button" value="Log out" onClick={logoutHandler} />
-            <h1>Products</h1>
+            <h1>Products {test}</h1>
+            <button onClick={() => dispatch(increment())}>+</button>
 
             <FilterComponent fetchFilterData={fetchFilterData} />
 
