@@ -1,15 +1,16 @@
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
-import Cookies from "js-cookie";
 import Products from './components/Products';
 
 function App() {
   return (
-    <div className="App">
-      {
-        Cookies.get("token") ? <Products/> : <Login/>
-      }
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Products />} />
+        <Route path="login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

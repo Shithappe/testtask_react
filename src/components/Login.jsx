@@ -45,7 +45,7 @@ const Login = () => {
           })
           .then(function (response) {
             Cookies.set("token", response.data.access_token);
-            window.location.reload();
+            document.location.href = "/";
           })
           .catch(function (err) {
             document.getElementsByClassName('serverError')[0].style.display = "block";

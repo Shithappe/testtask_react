@@ -2,10 +2,9 @@ body{
   background-color: rgb(242, 242, 242);
 }
 
-.App {
+.Products, .login {
   text-align: center;
 }
-
 
 .login form{
   display: flex;

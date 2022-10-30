@@ -3,19 +3,18 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import FilterComponent from "./FiltersComponent";
-import SortComponent from "./SortComponent";
+import PaginationComponent from "./PaginationComponent";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
-    // const [sortMode, setSortMode] = useState(Cookies.get("sortMode"));
-    // sort(sortMode);
-    const [currentPage, setCurrentPage] = useState(Cookies.get("page") ? Number(Cookies.get("page")) : 1);
-
+    const [currentPage, setCurrentPage] = useState("");
     const [findTitle, setFindTitle] = useState("");
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const [fromPrice, setFromPrice] = useState("");
     const [toPrice, setToPrice] = useState("");
+
+    if (!Cookies.get("token")) document.location.href = "/login";
 
     const fetchFilterData = (title, fromDate, toDate, fromPrice, toPrice) => {
         if (title) setFindTitle(title);
@@ -25,9 +24,9 @@ const Products = () => {
         if (toPrice) setToPrice(toPrice);
      }
 
-    const fetchSortData = (data) => {
-        setProducts(data);
-    }
+    const fetchPage = (page) => {
+        setCurrentPage(page);
+     }
     
     function logoutHandler(e) {
         Cookies.remove("findTitle"); 
@@ -63,24 +62,11 @@ const Products = () => {
     )
 
 
-    function goPrevPage() {
-        if (currentPage > 1) setCurrentPage(currentPage - 1);
-        Cookies.set("page", currentPage);
-    }
-    
-    function goNextPage() {
-        if (currentPage < 6) setCurrentPage(currentPage + 1);
-        Cookies.set("page", currentPage);
-    }
-
-
-
     return (
-        <div>
+        <div className="Products">
             <input className="logout" type="button" value="Log out" onClick={logoutHandler} />
             <h1>Products</h1>
 
-            <SortComponent products={products} fetchSortData={fetchSortData} />
             <FilterComponent fetchFilterData={fetchFilterData} />
 
             <div className="products">
@@ -93,12 +79,7 @@ const Products = () => {
             ))}
             </div>
 
-
-            <div className="pagination">
-                <button onClick={goPrevPage}>Prev</button>
-                <span>{currentPage}</span>
-                <button onClick={goNextPage}>Next</button>
-            </div>
+            <PaginationComponent fetchPage={fetchPage} />
         </div>
     )
 }
