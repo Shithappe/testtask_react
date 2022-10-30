@@ -2,45 +2,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+import FilterComponent from "./FiltersComponent";
+import SortComponent from "./SortComponent";
+
 const Products = () => {
     const [products, setProducts] = useState([]);
-    const [sortMode, setSortMode] = useState(Cookies.get("sortMode"));
+    // const [sortMode, setSortMode] = useState(Cookies.get("sortMode"));
+    // sort(sortMode);
     const [currentPage, setCurrentPage] = useState(Cookies.get("page") ? Number(Cookies.get("page")) : 1);
-    sort(sortMode);
-    
-    const [findTitle, setFindTitle] = useState(Cookies.get("findTitle") ? Cookies.get("findTitle") : "");
-    const [dateFrom, setDateFrom] = useState(Cookies.get("dateFrom") ? Cookies.get("dateFrom") : "");
-    const [dateTo, setDateTo] = useState(Cookies.get("dateTo") ? Cookies.get("dateTo") : "");
-    const [priceFrom, setPriceFrom] = useState(Cookies.get("priceFrom") ? Cookies.get("priceFrom") : "");
-    const [priceTo, setPriceTo] = useState(Cookies.get("priceTo") ? Cookies.get("priceTo") : "");
 
-    function findTitleHandler(e) {
-        setFindTitle(e.target.value);
-        Cookies.set("findTitle", e.target.value);
+    const [findTitle, setFindTitle] = useState("");
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
+    const [fromPrice, setFromPrice] = useState("");
+    const [toPrice, setToPrice] = useState("");
+
+    const fetchFilterData = (title, fromDate, toDate, fromPrice, toPrice) => {
+        if (title) setFindTitle(title);
+        if (fromDate) setFromDate(fromDate);
+        if (toDate) setToDate(toDate);
+        if (fromPrice) setFromPrice(fromPrice);
+        if (toPrice) setToPrice(toPrice);
+     }
+
+    const fetchSortData = (data) => {
+        setProducts(data);
     }
-    function dateFromHandler(e) {
-        setDateFrom(e.target.value);
-        Cookies.set("dateFrom", e.target.value);
-    }
-    function dateToHandler(e) {
-        setDateTo(e.target.value);
-        Cookies.set("dateTo", e.target.value);
-    }
-    function priceFromHandler(e) {
-        setPriceFrom(e.target.value);
-        Cookies.set("priceFrom", e.target.value);
-    }
-    function priceToHandler(e) {
-        setPriceTo(e.target.value);
-        Cookies.set("priceTo", e.target.value);
-    }
-    function cleanHandler(e) {
-        Cookies.remove("findTitle"); setFindTitle("");
-        Cookies.remove("dateFrom");  setDateFrom("");
-        Cookies.remove("dateTo");    setDateTo("");
-        Cookies.remove("priceFrom"); setPriceFrom("");
-        Cookies.remove("priceTo");   setPriceTo("");
-    }
+    
     function logoutHandler(e) {
         Cookies.remove("findTitle"); 
         Cookies.remove("dateFrom");  
@@ -52,15 +40,14 @@ const Products = () => {
         window.location.reload();
     }
 
-
     
     useEffect(() => {
         axios({
             method: 'get',
             url: `http://dummy-api.d0.acom.cloud/api/products?page=${currentPage}
-                                                             &from=${dateFrom}&to=${dateTo}
-                                                             &price_from=${priceFrom}&price_to=${priceTo}
-                                                             &title=${findTitle}`,
+                                                             &title=${findTitle}
+                                                             &from=${fromDate}&to=${toDate}
+                                                             &price_from=${fromPrice}&price_to=${toPrice}`,
             headers: { 'Authorization': 'Bearer ' + Cookies.get("token")}
             })
         .then(function (response) {
@@ -72,41 +59,9 @@ const Products = () => {
             window.location.reload();
         })
     },
-        [currentPage, dateFrom, dateTo, priceFrom, priceTo, findTitle]
+        [currentPage, findTitle, fromDate, toDate, fromPrice, toPrice]
     )
 
-    function changeSortMode(e) {
-        setSortMode(e.target.value);
-        Cookies.set("sortMode", e.target.value);
-        sort(e.target.value);
-    }
-
-    function sort(mode) {
-        switch (mode) {
-            case "name":
-                products.sort((a, b) => a.title.localeCompare(b.title));  
-                break;
-
-            case "date":
-                products.sort(function(a, b){
-                    if (a.created_at > b.created_at) return -1;
-                    else if(a.created_at < b.created_at) return  1;
-                    else return  0;
-                  });
-                break;
-
-            case "price":
-                products.sort(function(a, b){
-                    if (Number(a.price) < Number(b.price)) return -1;
-                    else if (Number(a.price) > Number(b.price)) return 1;
-                    else return 0;
-                })
-                    break;
-        
-            default:
-                break;
-        }
-    }
 
     function goPrevPage() {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -125,32 +80,8 @@ const Products = () => {
             <input className="logout" type="button" value="Log out" onClick={logoutHandler} />
             <h1>Products</h1>
 
-            <div className="radio-group" onChange={changeSortMode}>
-                <input type="radio" value="name" id="name" name="selector" defaultChecked={sortMode === "name"} />
-                <label htmlFor="name">Name</label>
-                
-                <input type="radio" value="date" id="date" name="selector" defaultChecked={sortMode === "date"} />
-                <label htmlFor="date">Date</label>
-
-                <input type="radio" value="price" id="price" name="selector" defaultChecked={sortMode === "price"} />
-                <label htmlFor="price">Price</label>
-            </div>
-
-            <div className="sort">
-                <input className="clean" type="button" value="Clean" onClick={cleanHandler} />
-                <div className="intName">
-                    <input type="text" placeholder="Find by title" value={findTitle} onChange={findTitleHandler} />
-                </div>
-                <div className="intDate">
-                    <input type="date" value={dateFrom} onChange={dateFromHandler} />
-                    <input type="date" value={dateTo} onChange={dateToHandler} />
-                </div>
-                <div className="intPrice">
-                    <input type="number" placeholder="Price from..." value={priceFrom} onChange={priceFromHandler} />
-                    <input type="number" placeholder="Price to..." value={priceTo} onChange={priceToHandler} />
-                </div>
-            </div>
-
+            <SortComponent products={products} fetchSortData={fetchSortData} />
+            <FilterComponent fetchFilterData={fetchFilterData} />
 
             <div className="products">
             {products?.map(product => (
